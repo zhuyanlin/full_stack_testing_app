@@ -70,13 +70,13 @@ $(document).ready(function() {
             url: 'http://localhost:8080/server/cart.php',
             method: 'GET',
             dataType: 'json',
-            success: function(data) {
+            success: function(response) {
                 const cartItemsList = $('#cart-items');
                 cartItemsList.empty();  // Clear the current cart items
                 let totalQuantity = 0;
-
+                let final_data = response.data;
                 // Loop through the cart and display items
-                data.forEach(item => {
+                final_data.forEach(item => {
                     const price = parseFloat(item.price);
                     const displayPrice = isNaN(price) ? 'N/A' : price.toFixed(2);
                     cartItemsList.append(`
