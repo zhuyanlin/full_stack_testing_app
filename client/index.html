@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Import jQuery from CDN -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+<header>
+    <div class="cart-summary">
+        <button id="cart-toggle" class="cart-button">My Cart (<span id="cart-count">0</span>)</button>
+        <div id="mini-cart" class="mini-cart">
+            <ul id="cart-items"></ul>
+        </div>
+    </div>
+</header>
+
+<div id="product" class="product">
+    <img id="image" src="" alt="Product Image" width="300">
+    <div class="product-details">
+        <h1 id="title">Loading...</h1>
+        <p id="description">Loading...</p>
+        <p id="price">$0.00</p>
+        <label for="size">Size:</label>
+        <div class="sizes">
+            <select id="size"></select>
+        </div>
+        <button id="add-to-cart" class="add-to-cart">Add to Cart</button>
+    </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

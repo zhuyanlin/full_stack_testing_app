@@ -1,0 +1,100 @@
+Here's a detailed README template for your project that includes instructions for setting up and using the application with Docker:
+
+---
+
+# Full Stack Docker App
+
+This project is a full-stack application that utilizes Docker for containerization. It includes a PHP backend with MySQL database support, and a frontend built with HTML, CSS, and JavaScript.
+
+## Prerequisites
+
+- [Docker](https://docs.docker.com/get-docker/) installed on your machine.
+- [Docker Compose](https://docs.docker.com/compose/install/) installed on your machine.
+
+## Getting Started
+
+Follow these steps to set up and run the application locally.
+
+### 1. Clone the Repository
+
+```bash
+git clone <repository-url>
+cd full-stack-docker-app
+```
+
+### 2. Set Up Environment Variables
+
+Create a `.env` file in the root of the project and add the following environment variables:
+
+```env
+MYSQL_ROOT_PASSWORD=your_root_password
+MYSQL_DATABASE=cart_db
+MYSQL_USER=full_stack_tester
+MYSQL_PASSWORD=your_password
+```
+
+### 3. Build and Run the Docker Containers
+
+Navigate to the project directory and run the following command to build the containers:
+
+```bash
+docker-compose up -d
+```
+
+### 4. Access the Application
+
+- Open your browser and navigate to `http://localhost:8080/` to access the frontend application.
+- The API for the cart can be accessed at `http://localhost:8080/server/cart.php`.
+
+### 5. Using the Application
+
+- Use the frontend to view products and add them to your cart.
+- The cart functionality allows you to add multiple sizes for each product.
+
+### 6. Testing the API with Postman
+
+- **Add Item to Cart (POST)**:
+  - **URL**: `http://localhost:8080/server/cart.php`
+  - **Method**: POST
+  - **Body** (x-www-form-urlencoded):
+    - title: "Classic Tee"
+    - size: "M" or "L"
+    - price: 75.00
+    - quantity: 1
+    - image: "https://mrdevelopertestassets.s3.ap-southeast-2.amazonaws.com/classic-tee.jpg"
+
+- **Get All Cart Items (GET)**:
+  - **URL**: `http://localhost:8080/server/cart.php`
+  - **Method**: GET
+
+- **Update Item in Cart (PUT)**:
+  - **URL**: `http://localhost:8080/server/cart.php`
+  - **Method**: PUT
+  - **Body** (x-www-form-urlencoded):
+    - title: "Classic Tee"
+    - size: "M"
+    - quantity: 2
+
+- **Delete Item from Cart (DELETE)**:
+  - **URL**: `http://localhost:8080/server/cart.php`
+  - **Method**: DELETE
+  - **Body** (x-www-form-urlencoded):
+    - title: "Classic Tee"
+    - size: "M"
+
+### 7. Stopping the Application
+
+To stop the running Docker containers, use:
+
+```bash
+docker-compose down
+```
+
+## Troubleshooting
+
+- If you encounter errors related to database connections, ensure that your Docker containers are running properly and that the environment variables are correctly set in the `.env` file.
+- For any issues related to missing PHP extensions, verify that the Dockerfile includes the necessary extensions.
+
+## Conclusion
+
+This project demonstrates a basic e-commerce functionality using a full-stack architecture with Docker. You can extend the application by adding more features as needed.
