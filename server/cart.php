@@ -22,7 +22,7 @@ try {
 } catch (PDOException $e) {
     // Return error message in JSON format
     header('Content-Type: application/json');
-    echo json_encode(["error" => "Connection failed: " . $e->getMessage()]);
+    echo json_encode(["status" => 500, "error" => "Connection failed: " . $e->getMessage()]);
     exit;
 }
 
@@ -35,7 +35,7 @@ header('Content-Type: application/json');
 // 1. Handle POST request to add a cart item (Create a cart)
 if ($method == 'POST') {
     // Validate input
-    if (isset($_POST['title'], $_POST['size'], $_POST['price'], $_POST['quantity'])) {
+    if (isset($_POST['title'], $_POST['size'], $_POST['price'], $_POST['quantity'], $_POST['image'])) {
         $title = $_POST['title'];
         $size = $_POST['size'];
         $price = $_POST['price'];
@@ -52,19 +52,19 @@ if ($method == 'POST') {
                 // If the item exists, update the quantity
                 $stmt = $pdo->prepare("UPDATE cart_items SET quantity = quantity + ? WHERE title = ? AND size = ?");
                 $stmt->execute([$quantity, $title, $size]);
-                echo json_encode(["message" => "Item updated in cart"]);
+                echo json_encode(["status" => 200, "message" => "Item updated in cart"]);
             } else {
                 // Otherwise, insert the new item into the cart
-                $stmt = $pdo->prepare("INSERT INTO cart_items (title, size, price, quantity, image) VALUES (?, ?, ?, ?,?)");
+                $stmt = $pdo->prepare("INSERT INTO cart_items (title, size, price, quantity, image) VALUES (?, ?, ?, ?, ?)");
                 $stmt->execute([$title, $size, $price, $quantity, $image]);
-                echo json_encode(["message" => "Item added to cart"]);
+                echo json_encode(["status" => 201, "message" => "Item added to cart"]);
             }
         } catch (Exception $e) {
             // Handle any errors and return a JSON response
-            echo json_encode(["error" => $e->getMessage()]);
+            echo json_encode(["status" => 500, "error" => $e->getMessage()]);
         }
     } else {
-        echo json_encode(["error" => "Invalid input"]);
+        echo json_encode(["status" => 400, "error" => "Invalid input"]);
     }
 }
 
@@ -73,9 +73,9 @@ if ($method == 'GET') {
     try {
         $stmt = $pdo->query("SELECT * FROM cart_items");
         $items = $stmt->fetchAll();
-        echo json_encode($items);
+        echo json_encode(["status" => 200, "data" => $items]);
     } catch (Exception $e) {
-        echo json_encode(["error" => $e->getMessage()]);
+        echo json_encode(["status" => 500, "error" => $e->getMessage()]);
     }
 }
 
@@ -93,12 +93,12 @@ if ($method == 'PUT') {
             // Update the quantity of the specified item in the cart
             $stmt = $pdo->prepare("UPDATE cart_items SET quantity = ? WHERE title = ? AND size = ?");
             $stmt->execute([$quantity, $title, $size]);
-            echo json_encode(["message" => "Item updated in cart"]);
+            echo json_encode(["status" => 200, "message" => "Item updated in cart"]);
         } catch (Exception $e) {
-            echo json_encode(["error" => $e->getMessage()]);
+            echo json_encode(["status" => 500, "error" => $e->getMessage()]);
         }
     } else {
-        echo json_encode(["error" => "Invalid input"]);
+        echo json_encode(["status" => 400, "error" => "Invalid input"]);
     }
 }
 
@@ -114,12 +114,11 @@ if ($method == 'DELETE') {
             // Delete the specified item from the cart
             $stmt = $pdo->prepare("DELETE FROM cart_items WHERE title = ? AND size = ?");
             $stmt->execute([$title, $size]);
-            echo json_encode(["message" => "Item removed from cart"]);
+            echo json_encode(["status" => 200, "message" => "Item removed from cart"]);
         } catch (Exception $e) {
-            echo json_encode(["error" => $e->getMessage()]);
+            echo json_encode(["status" => 500, "error" => $e->getMessage()]);
         }
     } else {
-        echo json_encode(["error" => "Invalid input"]);
+        echo json_encode(["status" => 400, "error" => "Invalid input"]);
     }
 }
-
